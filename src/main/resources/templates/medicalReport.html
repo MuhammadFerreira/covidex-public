@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Covidex</title>
+    <link rel="icon" type="image/x-icon" href="../../assetsHome/img/covidex-logo.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../../cssHome/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../dashboardPatientAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/untitled.css">
+    <link rel="stylesheet" href="../../medicalReportAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../medicalReportAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../../medicalReportAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../medicalReportAssets/css/medicalReport.css">
+
+
+</head>
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <div id="wrapper">
+
+
+        <div class="d-flex flex-column" style="background-color: #5726eb; height: 100vh;" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid"
+                    style="margin-left: 50px;margin-right: 50px;width: auto;height: auto; background-color: white;">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="title text-dark mb-0"
+                            style="font-family: Poppins, sans-serif;font-weight: bold;font-size: 55px;  margin: auto; margin-top: 10vh;">
+                            Medical Report</h3>
+                    </div>
+                    <h3 class="text-dark d-xxl-flex justify-content-xxl-center align-items-xxl-start mb-0"
+                        style="font-weight: bold;font-size: 50px;text-align: center; margin-left: 0px;margin-bottom: 0px;padding-bottom: 35px;"
+                        th:text="${patient.getFirstName} + ' ' + ${patient.getLastName}"></h3>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row d-xxl-flex justify-content-xxl-center align-items-xxl-center"
+                                style="margin-left: 5px;">
+                                <div class="col-xxl-8">
+                                    <div
+                                        class="d-sm-flex justify-content-between align-items-center justify-content-sm-center justify-content-xxl-start mb-4">
+                                    </div>
+
+                                    <div
+                                        class="row d-sm-flex d-xl-flex justify-content-sm-center align-items-sm-center align-items-xl-center">
+                                        <div class="col">
+                                            <div class="row d-xxl-flex justify-content-xxl-center">
+                                                <div class="col-md-12 col-xl-12 mb-4" style="width: auto;"><a
+                                                        style="color: rgba(78,115,223,0);">
+                                                        <div class="card shadow border-start-primary py-2"
+                                                            data-bss-hover-animate="bounce"
+                                                            style="width: auto;height: auto;">
+                                                            <div class="card-body">
+                                                                <div class="row align-items-center no-gutters">
+                                                                    <div class="col me-2"
+                                                                        style="width: auto;padding-right: 75px;">
+                                                                        <div class="text-uppercase fw-bold text-xs mb-1"
+                                                                            style="color: var(--bs-gray-900);width: auto;">
+                                                                            <span
+                                                                                style="font-size: 20.2px;font-family: Poppins, sans-serif;"><span
+                                                                                    style="font-size: 20.2px;font-family: Poppins, sans-serif;color: rgb(0,0,0);">Age</span></span>
+                                                                        </div>
+                                                                        <div class="text-dark fw-bold h5 mb-0"
+                                                                            style="width: auto;"><span
+                                                                                style="font-size: 52px;"
+                                                                                th:text="${patientAge}"></span></div>
+                                                                    </div>
+                                                                    <div class="col-auto"><i
+                                                                            class="fas fa-birthday-cake text-primary fa-2x text-gray-300"
+                                                                            style="font-size: 38px;"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a></div>
+                                                <div class="col-md-6 col-xl-3 mb-4" style="width: 321.094px;"><a
+                                                        style="color: rgba(78,115,223,0);">
+                                                        <div class="card shadow border-start-primary py-2"
+                                                            data-bss-hover-animate="bounce"
+                                                            style="width: auto;height: auto;">
+                                                            <div class="card-body" style="height: 130.7969px;">
+                                                                <div class="row align-items-center no-gutters">
+                                                                    <div class="col me-2">
+                                                                        <div class="text-uppercase fw-bold text-xs mb-1"
+                                                                            style="color: var(--bs-gray-900);"><span
+                                                                                style="font-size: 20.2px;font-family: Poppins, sans-serif;"><span
+                                                                                    style="font-size: 20.2px;font-family: Poppins, sans-serif;color: rgb(0,0,0);">Gender</span></span>
+                                                                        </div>
+                                                                        <div class="text-dark fw-bold h5 mb-0"><span
+                                                                                class="text-capitalize"
+                                                                                style="font-size: 52px;"
+                                                                                th:text="${patient.getGender}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto"><i
+                                                                            class="far fa-smile text-primary fa-2x text-gray-300"
+                                                                            style="font-size: 44px;"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a></div>
+                                                <div class="col-md-6 col-xl-3 mb-4" style="width: 321.094px;"><a
+                                                        style="color: rgba(78,115,223,0);">
+                                                        <div class="card shadow border-start-primary py-2"
+                                                            data-bss-hover-animate="bounce">
+                                                            <div class="card-body" style="height: auto;width: auto;">
+                                                                <div class="row align-items-center no-gutters">
+                                                                    <div class="col me-2">
+                                                                        <div
+                                                                            class="text-uppercase text-primary fw-bold text-xs mb-1">
+                                                                            <span class="fs-5 fw-bold"
+                                                                                style="font-size: 23.2px;color: rgb(0,0,0);font-family: Poppins, sans-serif;">number
+                                                                                of doses</span>
+                                                                        </div>
+                                                                        <div class="text-dark fw-bold h5 mb-0"><span
+                                                                                style="font-size: 52px;"
+                                                                                th:text="${patient.getNumOfDoses}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            width="1em" height="1em" viewBox="0 0 24 24"
+                                                                            stroke-width="2" stroke="currentColor"
+                                                                            fill="none" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="icon icon-tabler icon-tabler-virus-search fa-2x text-gray-300"
+                                                                            style="color: rgb(235,56,56);font-size: 47px;">
+                                                                            <path stroke="none" d="M0 0h24v24H0z"
+                                                                                fill="none"></path>
+                                                                            <path d="M17 12a5 5 0 1 0 -5 5"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(45 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(90 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(180 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(225 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(270 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(315 12 12)"></path>
+                                                                            <circle cx="17.5" cy="17.5" r="2.5">
+                                                                            </circle>
+                                                                            <line x1="19.5" y1="19.5" x2="22" y2="22">
+                                                                            </line>
+                                                                        </svg></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a></div>
+                                                <div class="col-md-6 col-xl-3 mb-4" style="width: 321.094px;"><a
+                                                        style="color: rgba(78,115,223,0);">
+                                                        <div class="card shadow d-xxl-flex justify-content-xxl-center align-items-xxl-center border-start-primary py-2"
+                                                            data-bss-hover-animate="bounce"
+                                                            style="width: auto;height: auto;">
+                                                            <div class="card-body"
+                                                                style="height: 130.7969px;width: 302.172px;">
+                                                                <div class="row align-items-center no-gutters">
+                                                                    <div class="col me-2">
+                                                                        <div
+                                                                            class="text-uppercase text-primary fw-bold text-xs mb-1">
+                                                                            <span class="fs-5 fw-bold"
+                                                                                style="font-size: 23.2px;color: rgb(0,0,0);font-family: Poppins, sans-serif;">COVID-19
+                                                                                Status</span>
+                                                                        </div>
+                                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                                            <th:block
+                                                                                th:switch="${patient.isIsPositive}">
+                                                                                <span th:case="${true}"
+                                                                                    style="font-size: 52px;">Positive</span>
+                                                                                <span th:case="${false}"
+                                                                                    style="font-size: 45px;">Negative</span>
+                                                                            </th:block>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24" stroke-width="2"
+                                                                            stroke="currentColor" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="icon icon-tabler icon-tabler-virus fa-2x text-gray-300"
+                                                                            style="color: rgb(235,56,56);font-size: 47px;">
+                                                                            <path stroke="none" d="M0 0h24v24H0z"
+                                                                                fill="none"></path>
+                                                                            <circle cx="12" cy="12" r="5"></circle>
+                                                                            <path d="M12 7v-4m-1 0h2"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(45 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(90 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(135 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(180 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(225 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(270 12 12)"></path>
+                                                                            <path d="M12 7v-4m-1 0h2"
+                                                                                transform="rotate(315 12 12)"></path>
+                                                                        </svg></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a></div>
+                                                <div class="col-md-6 col-xl-3 d-xxl-flex justify-content-xxl-center align-items-xxl-center mb-4"
+                                                    style="width: auto;"><a style="color: rgba(78,115,223,0);">
+                                                        <div class="card shadow d-xxl-flex justify-content-xxl-center align-items-xxl-center border-start-primary py-2"
+                                                            data-bss-hover-animate="bounce"
+                                                            style="width: auto;height: auto;">
+                                                            <div class="card-body d-xxl-flex justify-content-xxl-center align-items-xxl-center"
+                                                                style="height: 130.7969px;width: auto;">
+                                                                <div class="row d-xxl-flex align-items-center justify-content-xxl-center no-gutters"
+                                                                    style="width: auto;">
+                                                                    <div class="col me-2"
+                                                                        style="width: auto;padding-right: 0px;margin-right: 0px;">
+                                                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1"
+                                                                            style="width: auto;"><span
+                                                                                class="fs-5 fw-bold"
+                                                                                style="font-size: 23.2px;color: rgb(0,0,0);font-family: Poppins, sans-serif;">Symptom
+                                                                                Type</span></div>
+                                                                        <div class="text-dark fw-bold h5 mb-0"
+                                                                            style="width: auto;"><span
+                                                                                class="text-capitalize"
+                                                                                style="font-size: 30px;"
+                                                                                th:text="${patient.getInfectionStatus()}"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto" style="width: auto;"><svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24" stroke-width="2"
+                                                                            stroke="currentColor" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="icon icon-tabler icon-tabler-user-exclamation fa-2x text-gray-300"
+                                                                            style="color: rgb(235,56,56);font-size: 47px;">
+                                                                            <path stroke="none" d="M0 0h24v24H0z"
+                                                                                fill="none"></path>
+                                                                            <circle cx="9" cy="7" r="4"></circle>
+                                                                            <path
+                                                                                d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+                                                                            </path>
+                                                                            <line x1="19" y1="7" x2="19" y2="10"></line>
+                                                                            <line x1="19" y1="14" x2="19" y2="14.01">
+                                                                            </line>
+                                                                        </svg></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <footer class="bg-white sticky-footer" style="height: auto; padding-top: 50px;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © CoviDex 2022</span></div>
+                </div>
+            </footer>
+
+
+        </div>
+
+    </div>
+    <script src="../../medicalReportAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../medicalReportAssets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="../../medicalReportAssets/js/Simple-Slider.js"></script>
+    <script src="../../medicalReportAssets/js/theme.js"></script>
+</body>
+
+</html>

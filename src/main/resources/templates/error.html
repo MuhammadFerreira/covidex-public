@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Covidex</title>
+	<link rel="icon" type="image/x-icon" href="assetsHome\img\covidex-logo.ico" />
+	<!-- Bootstrap icons-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+	<!-- Google fonts-->
+	<link rel="preconnect" href="https://fonts.gstatic.com" />
+	<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+		rel="stylesheet" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+		rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+		rel="stylesheet" />
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link href="cssHome\styles.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+
+	<script>
+		$(function () {
+			setTimeout(function () {
+				$('body').removeClass('loading');
+			}, 1000);
+		});
+	</script>
+	<style>
+		:root {
+			--main-color: #eaeaea;
+			--stroke-color: black;
+
+		}
+
+		/**/
+		body {
+			background: var(--main-color);
+		}
+
+		h1 {
+			margin: 100px auto 0 auto;
+			color: var(--stroke-color);
+			font-family: 'Encode Sans Semi Condensed', Verdana, sans-serif;
+			font-size: 10rem;
+			line-height: 10rem;
+			font-weight: 200;
+			text-align: center;
+		}
+
+		h2 {
+			margin: 20px auto 30px auto;
+			font-family: 'Encode Sans Semi Condensed', Verdana, sans-serif;
+			font-size: 1.5rem;
+			font-weight: 200;
+			text-align: center;
+		}
+
+		h1,
+		h2 {
+			-webkit-transition: opacity 0.5s linear, margin-top 0.5s linear;
+			/* Safari */
+			transition: opacity 0.5s linear, margin-top 0.5s linear;
+		}
+
+		.loading h1,
+		.loading h2 {
+			margin-top: 0px;
+			opacity: 0;
+		}
+
+		.gears {
+			position: relative;
+			margin: 0 auto;
+			width: auto;
+			height: 0;
+		}
+
+		.gear {
+			position: relative;
+			z-index: 0;
+			width: 120px;
+			height: 120px;
+			margin: 0 auto;
+			border-radius: 50%;
+			background: var(--stroke-color);
+		}
+
+		.gear:before {
+			position: absolute;
+			left: 5px;
+			top: 5px;
+			right: 5px;
+			bottom: 5px;
+			z-index: 2;
+			content: "";
+			border-radius: 50%;
+			background: var(--main-color);
+		}
+
+		.gear:after {
+			position: absolute;
+			left: 25px;
+			top: 25px;
+			z-index: 3;
+			content: "";
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			border: 5px solid var(--stroke-color);
+			box-sizing: border-box;
+			background: var(--main-color);
+		}
+
+		.gear.one {
+			left: -130px;
+		}
+
+		.gear.two {
+			top: -75px;
+		}
+
+		.gear.three {
+			top: -235px;
+			left: 130px;
+		}
+
+		.gear .bar {
+			position: absolute;
+			left: -15px;
+			top: 50%;
+			z-index: 0;
+			width: 150px;
+			height: 30px;
+			margin-top: -15px;
+			border-radius: 5px;
+			background: var(--stroke-color);
+		}
+
+		.gear .bar:before {
+			position: absolute;
+			left: 5px;
+			top: 5px;
+			right: 5px;
+			bottom: 5px;
+			z-index: 1;
+			content: "";
+			border-radius: 2px;
+			background: var(--main-color);
+		}
+
+		.gear .bar:nth-child(2) {
+			transform: rotate(60deg);
+			-webkit-transform: rotate(60deg);
+		}
+
+		.gear .bar:nth-child(3) {
+			transform: rotate(120deg);
+			-webkit-transform: rotate(120deg);
+		}
+
+		@-webkit-keyframes clockwise {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+
+		@-webkit-keyframes anticlockwise {
+			0% {
+				-webkit-transform: rotate(360deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(0deg);
+			}
+		}
+
+		@-webkit-keyframes clockwiseError {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			20% {
+				-webkit-transform: rotate(30deg);
+			}
+
+			40% {
+				-webkit-transform: rotate(25deg);
+			}
+
+			60% {
+				-webkit-transform: rotate(30deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(0deg);
+			}
+		}
+
+		@-webkit-keyframes anticlockwiseErrorStop {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			20% {
+				-webkit-transform: rotate(-30deg);
+			}
+
+			60% {
+				-webkit-transform: rotate(-30deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(0deg);
+			}
+		}
+
+		@-webkit-keyframes anticlockwiseError {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			20% {
+				-webkit-transform: rotate(-30deg);
+			}
+
+			40% {
+				-webkit-transform: rotate(-25deg);
+			}
+
+			60% {
+				-webkit-transform: rotate(-30deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(0deg);
+			}
+		}
+
+		.gear.one {
+			-webkit-animation: anticlockwiseErrorStop 2s linear infinite;
+		}
+
+		.gear.two {
+			-webkit-animation: anticlockwiseError 2s linear infinite;
+		}
+
+		.gear.three {
+			-webkit-animation: clockwiseError 2s linear infinite;
+		}
+
+		.loading .gear.one,
+		.loading .gear.three {
+			-webkit-animation: clockwise 3s linear infinite;
+		}
+
+		.loading .gear.two {
+			-webkit-animation: anticlockwise 3s linear infinite;
+		}
+	</style>
+</head>
+
+<body class="loading">
+
+
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+		<div class="container px-5">
+			<img src="assetsHome\img\covidex-logo.ico" alt="logo"
+				style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+			<a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="bi-list"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+				</ul>
+				<div sec:authorize="!isAuthenticated()" class="justify-content-center d-flex">
+					<a href="/login">
+						<button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+							<span class="d-flex align-items-center">
+								<span class="small">Log In &nbsp;</span><i class="bi bi-door-open"></i>
+							</span>
+						</button>
+					</a>
+				</div>
+				<div sec:authorize="isAuthenticated()">
+					<form th:action="@{/logout}" method="post">
+						<button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal">
+							<span class="d-flex align-items-center">
+								<span class="small">Log Out &nbsp;</span>
+								<i class="bi bi-door-closed-fill"></i>
+							</span>
+						</button>
+					</form>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</nav>
+
+	<div class="container" style="margin-top: 20vh;">
+		<h1>Oh no!</h1>
+		<h2>Unexpected Error <b>:(</b></h2>
+		<h2>DESCRIPTION:<p class="lead" th:text="${errormessage}"></p>
+		</h2>
+
+
+
+		<div class="gears">
+			<div class="gear one">
+				<div class="bar"></div>
+				<div class="bar"></div>
+				<div class="bar">
+				</div>
+			</div>
+			<div class="gear two">
+				<div class="bar"></div>
+				<div class="bar"></div>
+				<div class="bar">
+				</div>
+			</div>
+			<div class="gear three">
+				<div class="bar"></div>
+				<div class="bar"></div>
+				<div class="bar"></div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>About Me - Gov</title>
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/untitled.css">
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="justify-content-center d-flex">
+                <button class="btn btn-primary rounded-pill px-3 mb-2 " id="sidebarToggleTop" style="margin-right: 10px;">
+                    <span class="d-flex align-items-center">
+                        <span class="small">Toggle Menu</span>
+                    </span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger rounded-pill px-3 mb-2 " data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <span class="small">Log Out &nbsp;</span>
+                            <i class="bi bi-door-closed-fill"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: #5726eb;">
+            <div class="container-fluid d-flex flex-column p-0 navbar-brand">
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-dark" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" href="/govhome" style="padding-top: 39px;"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/govhome/about-me"><i class="fas fa-user"></i><span>My
+                                Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/govhome/patients"><i
+                                class="fas fa-table"></i><span>Patients</span></a></li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4"
+                            style="margin-top: 30px;">
+                            <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">Personal Information</h1>
+                        </div>
+
+                        <span><a href="/govhome/edit-profile"><input class="btn btn-primary" type="submit"
+                                    style="margin-top:20px;width: 180px;background: #5726eb;height: 67px;border-radius: 5.6px;font-weight: bold;font-size: 29px;border-width: 0px;padding-top: 0px;padding-bottom: 0px;"
+                                    value="Edit Profile"></span></a>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- Content Row -->
+                            <div class="row">
+
+                                <!-- Daily Status -->
+                                <div class="col-xl-4 mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Full
+                                                            Name</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${#request.userPrincipal.principal.fullName}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xl-4 mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Date Of
+                                                            Birth</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${gov.getDob}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xl-4 mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Gender</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span class="text-capitalize" style="font-size: 35px;"
+                                                                th:text="${gov.getGender}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                            <!-- Content Row -->
+                            <div class="row">
+                                <div class="col-xl-12  mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters">
+                                                    <div class="col mr-2">
+                                                        <span
+                                                            style="font-size: 23.2px;color: rgb(0,0,0);">Address</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${gov.getAddress}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- Daily Status -->
+                                <div class="col-xl-4  mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Phone
+                                                            Number</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${gov.getPhoneNumber}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xl-4  mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Email</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${gov.getEmail()}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xl-4  mb-4">
+                                    <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                        data-bs-toggle="modal" data-bs-target="#statusModal">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <span style="font-size: 23.2px;color: rgb(0,0,0);">Government
+                                                            Role</span>
+                                                        <div class="text-dark fw-bold h5 mb-0">
+                                                            <span style="font-size: 35px;"
+                                                                th:text="${gov.getGovRole}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © CoviDex 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="../../doctorPatientStatusAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/chart.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/Simple-Slider.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/theme.js"></script>
+</body>
+
+</html>

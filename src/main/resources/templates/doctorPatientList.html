@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Covidex</title>
+    <link rel="icon" type="image/x-icon" href="../assetsHome/img/covidex-logo.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="cssHome\styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboardPatientAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="dashboardAdminAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dashboardAdminAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="dashboardAdminAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="dashboardAdminAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../userListAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../userListAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../userListAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../patientListAssets/fonts/fontawesome5-overrides.min.css">
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="justify-content-center d-flex">
+                <button class="btn btn-primary rounded-pill px-3 mb-2 " id="sidebarToggleTop" style="margin-right: 10px;">
+                    <span class="d-flex align-items-center">
+                        <span class="small">Toggle Menu</span>
+                    </span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger rounded-pill px-3 mb-2 " data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <span class="small">Log Out &nbsp;</span>
+                            <i class="bi bi-door-closed-fill"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: #5726eb;">
+            <div class="container-fluid d-flex flex-column p-0">
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-dark" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="/doctorhome" style="padding-top: 39px;"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctorhome/about-me"><i
+                                class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/doctorhome/patients"><i
+                                class="fas fa-table"></i><span>Patients</span></a></li>
+                    <li class="nav-item"></li>
+
+
+
+
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid" style="border-radius: 59px;">
+                    <div class="d-sm-flex justify-content-between align-items-center">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4"
+                            style="margin-top: 30px;">
+                            <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">All Users</h1>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-body" style="text-align: left;">
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap"></div>
+                                <div class="col-md-6"></div>
+                            </div>
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid"
+                                aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead style="font-size: 20px;">
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>COVID Status</th>
+                                            <th>Flagged</th>
+                                            <th>Variant</th>
+                                            <th>Symptom Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 25px;">
+                                        <tr th:each="patients: ${listPatients}">
+                                            <td><img class="rounded-circle me-2" width="30" height="30"
+                                                    src="../../patientListAssets/img/avatars/avatar1.jpeg"><a
+                                                    th:text="${patients.firstName + ' ' + patients.lastName}"
+                                                    th:href="@{/doctorhome/patients/{id}(id=${patients.getId})}"></a>
+                                            </td>
+                                            <td th:switch="${patients.isPositive}">
+                                                <span th:case="${true}">Positive</span>
+                                                <span th:case="${false}">Negative</span>
+                                            </td>
+                                            <form th:action="@{/doctorhome/patients/flag}" method="post">
+                                                <td th:switch="${patients.isFlagged}">
+                                                    <p hidden><input name="patientEmail" th:value="${patients.email}">
+                                                    </p>
+                                                    <span th:case="${true}"><input type="submit"
+                                                            class="btn btn-outline-danger" value="Flagged"></span>
+                                                    <span th:case="${false}"><input type="submit"
+                                                            class="btn btn-outline-success" value="Not Flagged"></span>
+                                                </td>
+                                            </form>
+                                            <td th:text="${patients.varientType}" style="text-transform: capitalize;">
+                                            </td>
+                                            <td th:text="${patients.infectionStatus}"
+                                                style="text-transform: capitalize;"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><strong>Patient Name</strong></td>
+                                            <td><strong>COVID Status</strong></td>
+                                            <td><strong>Flagged</strong></td>
+                                            <td><strong>Variant</strong></td>
+                                            <td><strong>Symptom Type</strong></td>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 align-self-center"></div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © CoviDex 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="../../userListAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../userListAssets/js/bs-init.js"></script>
+    <script src="../../userListAssets/js/theme.js"></script>
+</body>
+
+</html>

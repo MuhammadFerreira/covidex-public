@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Covidex</title>
+    <link rel="icon" type="image/x-icon" href="assetsHome\img\covidex-logo.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="cssHome\styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboardPatientAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="dashboardPatientAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="justify-content-center d-flex">
+                <button class="btn btn-primary rounded-pill px-3 mb-2 " id="sidebarToggleTop" style="margin-right: 10px;">
+                    <span class="d-flex align-items-center">
+                        <span class="small">Toggle Menu</span>
+                    </span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger rounded-pill px-3 mb-2 " data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <span class="small">Log Out &nbsp;</span>
+                            <i class="bi bi-door-closed-fill"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: #5726eb;">
+            <div class="container-fluid d-flex flex-column p-0 navbar-brand">
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-dark" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" style="padding-top: 39px;"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/patienthome/about-me"><i
+                                class="fas fa-user"></i><span>My Profile</span></a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link" href="/patienthome/reports"><i
+                                class="fas fa-solid fa-book-medical"></i><span class="navbar-rand">Review
+                                Reports</span></a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link" href="/patienthome/aboutdoctor"><i
+                                class="fas fa-solid fa-user-nurse"></i><span>About Doctor</span></a></li>
+
+                    <li th:if="${patient.isPositive == true}" class="nav-item"><a class="nav-link"
+                            href="/patienthome/contact-trace-report"><i class="fa fa-flag"></i><span>Contact Traced
+                                Individuals</span></a> </li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column rounded-left " style="z-index: 1000;">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 30px;">
+                        <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">Dashboard</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Daily Status -->
+                        <div th:if="${hasSubmittedReport}" class="col-xl-3 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Daily Status
+                                                    Report</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;">Submitted</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i style="color: rgb(17, 231, 28);"
+                                                    class="far fa-check-circle fa-2x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Daily Status -->
+                        <div th:if="${!hasSubmittedReport}" class="col-xl-3 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2 animated pulse infinite">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Daily Status
+                                                    Report</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;">Pending</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-exclamation fa-2x"
+                                                    style="color: rgb(206, 43, 62);"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Review Status -->
+                        <div th:if="${hasSubmittedReport}" class="col-xl-3 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div th:if="${recentReport.isIsReviewed}" class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Doctor Review
+                                                Status</span>
+                                            <div class="text-dark fw-bold h5 mb-0"><span
+                                                    style="font-size: 35px;">Reviewed</span></div>
+                                        </div>
+                                        <div class="col-auto"><i style="color: rgb(17, 231, 28);"
+                                                class="far fa-check-circle fa-2x"></i></div>
+                                    </div>
+                                </div>
+                                <div th:if="${!recentReport.isIsReviewed}" class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Doctor Review
+                                                Status</span>
+                                            <div class="text-dark fw-bold h5 mb-0"><span
+                                                    style="font-size: 35px;">Pending</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-exclamation fa-2x"
+                                                style="color: rgb(206, 43, 62);"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Doctor -->
+                        <div class="col-xl-3 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">My
+                                                Doctor</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 35px;"
+                                                        th:text="${doctor}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Doctor -->
+                        <div class="col-xl-3 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#chatModal" title="Chat now!">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Need Help?</span>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="text-dark fw-bold h5 mb-0"><span
+                                                            style="font-size: 35px;">Contact Doctor</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row d-flex justify-content-center" style="height: 100%">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7" th:if="${!noReports}">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header d-flex justify-content-between align-items-center"><span
+                                        class="text-dark fw-bold h5 mb-0"
+                                        style="font-size: 35px;font-weight: bold;text-align: center;">10-Day
+                                        Recap of Status Rating</span></div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas
+                                            th:data-bss-chart="|{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[${lastTenReportDates}],&quot;datasets&quot;:[{&quot;label&quot;:&quot;My Health Status&quot;,&quot;backgroundColor&quot;:&quot;rgb(231,74,59)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;,&quot;data&quot;:[${lastTenReportRatings}]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#212529&quot;,&quot;fontSize&quot;:36}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ea1111&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontSize&quot;:&quot;19&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontSize&quot;:&quot;19&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}|"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QR Code -->
+                        <!-- Area Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header d-flex align-items-center justify-content-center"><span
+                                        class="text-dark fw-bold h5 mb-0"
+                                        style="font-size: 35px;font-weight: bold;text-align: center;">Medical
+                                        Record</span></div>
+                                <!-- Card Body -->
+                                <div class="card-body d-flex align-items-center justify-content-center">
+                                    <div class="chart-area img-fluid d-flex align-items-center justify-content-center">
+                                        <img class="img-fluid" style="height: 100%;"
+                                            th:src="@{https://chart.apis.google.com/chart?cht=qr&chs=500x500&chl={url}/medicalReport/{id}(id=${patient.getId},url=${url})}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-sm-flex justify-content-between align-items-center justify-content-xxl-center mb-4">
+                        <h3 class="text-dark d-xxl-flex align-items-xxl-start mb-0"
+                            style="font-weight: bold;font-size: 41px;">Situation in Quebec</h3>
+                    </div>
+                    <div class="row">
+
+                        <!-- Change in Hospitilizations -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">New Infections</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 35px;"
+                                                        th:text="${newInfections}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-frown fa-2x text-warning"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Change in Hospitilizations -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Hospitalizations</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 35px;"
+                                                        th:text="${changeInHospitilizations}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-hospital-alt fa-2x text-dark"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deaths -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Deaths</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 35px;"
+                                                        th:text="${deaths}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                fill="currentColor" viewBox="0 0 16 16"
+                                                class="bi bi-shield-fill-exclamation fa-2x"
+                                                style="color: rgb(206, 43, 62);">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm-.55 8.502L7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0zM8.002 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Self-Isolation Regulations -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <a href="https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/self-isolation"
+                                style="color: rgba(78,115,223,0);">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-dark fw-bold h5 mb-0 text-center"><span
+                                                        style="font-size: 35px;">Self-Isolation
+                                                        Regulations</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Covidex 2022</span></div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+<body id="page-top">
+    <div id="wrapper">
+
+        <script th:inline="javascript">
+
+            /*<![CDATA[*/
+
+            var appointments = /*[[${appointments}]]*/ 'null';
+            var doctorAvailability = /*[[${doctorAvailability}]]*/ 'test';
+
+
+            /*]]>*/
+
+            var makeTimeIntervals = function (startTime, endTime, increment) {
+                startTime = startTime.toString().split(':');
+                endTime = endTime.toString().split(':');
+                increment = parseInt(increment, 10);
+
+                var pad = function (n) { return (n < 10) ? '0' + n.toString() : n; },
+                    startHr = parseInt(startTime[0], 10),
+                    startMin = parseInt(startTime[1], 10),
+                    endHr = parseInt(endTime[0], 10),
+                    endMin = parseInt(endTime[1], 10),
+                    currentHr = startHr,
+                    currentMin = startMin,
+                    previous = currentHr + ':' + pad(currentMin),
+                    current = '',
+                    r = [];
+
+                do {
+                    currentMin += increment;
+                    if ((currentMin % 60) === 0 || currentMin > 60) {
+                        currentMin = (currentMin === 60) ? 0 : currentMin - 60;
+                        currentHr += 1;
+                    }
+                    current = currentHr + ':' + pad(currentMin);
+                    r.push(previous + ' - ' + current);
+                    previous = current;
+                } while (currentHr !== endHr);
+
+                return r;
+            };
+
+            function populate(s1, s2) {
+                var s1 = document.getElementById(s1);
+                var s2 = document.getElementById(s2);
+
+                console.log(JSON.parse(doctorAvailability).fridayEnd)
+                console.log(new Date(s1.value).getDay())
+
+                if (new Date(s1.value).getDay() == 6) {
+                    doctorStartTime = JSON.parse(doctorAvailability).sundayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).sundayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 0) {
+                    doctorStartTime = JSON.parse(doctorAvailability).mondayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).mondayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 1) {
+                    doctorStartTime = JSON.parse(doctorAvailability).tuesdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).tuesdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 2) {
+                    doctorStartTime = JSON.parse(doctorAvailability).wednesdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).wednesdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 3) {
+                    doctorStartTime = JSON.parse(doctorAvailability).thursdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).thursdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 4) {
+                    doctorStartTime = JSON.parse(doctorAvailability).fridayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).fridayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 5) {
+                    doctorStartTime = JSON.parse(doctorAvailability).saturdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).saturdayEnd;
+                }
+
+                console.log(doctorEndTime)
+
+                var a = makeTimeIntervals(doctorStartTime, doctorEndTime, 30);
+
+                s2.innerHTML = "";
+
+                var JSONApp = JSON.parse(appointments);
+
+                console.log(JSONApp[0]);
+
+                for (var index in a) {
+
+                    var currentDateTime = new Date(s1.value);
+                    var today = new Date();
+
+                    currentDateTime.setHours(a[index].split(" - ")[0].split(":")[0]);
+                    currentDateTime.setMinutes(a[index].split(" - ")[0].split(":")[1]);
+
+                    currentDateTime.setDate(currentDateTime.getDate() + 1);
+
+                    var booked = false;
+
+                    for (var check in JSONApp) {
+                        var pointerA = new Date(JSONApp[check].start.split(" ")[0].split("-")[0], JSONApp[check].start.split(" ")[0].split("-")[1] - 1, JSONApp[check].start.split(" ")[0].split("-")[2], JSONApp[check].start.split(" ")[1].split(":")[0], JSONApp[check].start.split(" ")[1].split(":")[1]);
+
+                        if (pointerA.getTime() === currentDateTime.getTime()) {
+                            console.log(pointerA + " VS " + currentDateTime);
+                            booked = true;
+                            break;
+                        }
+
+                        if (currentDateTime < today) {
+                            console.log("TIME NOW VS: " + currentDateTime + " VS " + today);
+                            booked = true;
+                            break;
+                        }
+                    }
+
+                    if (booked) {
+                        console.log("IT WORKED!!!");
+                        continue;
+                    }
+
+
+
+                    var newOption = document.createElement("option");
+                    newOption.value = a[index];
+                    newOption.innerHTML = a[index];
+                    s2.options.add(newOption);
+                }
+            }
+        </script>
+
+
+        <div class="modal fade" id="statusModal" data-bs-backdrop="static" tabindex="-1"
+            aria-labelledby="statusModalLabel" aria-hidden="true" style="top: 7rem;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statusModalLabel">Update Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/patienthome/add-daily-report}" method="post">
+                            <div class="mb-3">
+
+                                <label for="recipient-name" class="col-form-label">How do you Feel?</label>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" min="1" max="10"
+                                        th:value="${recentReport.getStatusRating}" name="statusRating">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">/10</span>
+                                    </div>
+                                </div>
+
+                                <label for="recipient-name" class="col-form-label">COVID-19 Vaccine Doses</label>
+                                <select class="form-select" style="font-family:Roboto, sans-serif;"
+                                    th:value="${patient.numOfDoses}" name="numOfDoses">
+
+                                    <div th:if="${patient.enabled == false}">
+                                        <option value="" selected="">Select Number of Doses</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3 or More</option>
+                                    </div>
+                                    <div th:if="${patient.numOfDoses == 0 && patient.enabled == true}">
+                                        <option value="0" selected="">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3 or More</option>
+                                    </div>
+                                    <div th:if="${patient.numOfDoses == 1}">
+                                        <option value="0">0</option>
+                                        <option value="1" selected="">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3 or More</option>
+                                    </div>
+
+                                    <div th:if="${patient.numOfDoses == 2}">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2" selected="">2</option>
+                                        <option value="3">3 or More</option>
+                                    </div>
+
+                                    <div th:if="${patient.numOfDoses >= 3}">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3" selected="">3 or More</option>
+                                    </div>
+                                </select>
+
+                                <label for="recipient-name" class="col-form-label">COVID-19 Status</label>
+
+                                <div class="selectParent">
+                                    <select class="form-select" style="font-family:Roboto, sans-serif;"
+                                        th:value="${patient.isPositive}" name="isPositive" id="isPositive">
+
+                                        <div th:if="${patient.isPositive == true}">
+                                            <option value="true" selected="">Positive</option>
+                                            <option value="false">Negative</option>
+                                        </div>
+
+                                        <div th:if="${patient.isPositive == false}">
+                                            <option value="true">Positive</option>
+                                            <option value="false" selected="">Negative</option>
+                                        </div>
+                                    </select>
+                                </div>
+                                <div id="divid" th:style="${patient.isPositive} ? 'display: block' : 'display: none' ">
+                                    <label for="recipient-name" class="col-form-label">Symptom Type</label>
+                                    <select class="form-select" style="font-family:Roboto, sans-serif;"
+                                        th:value="${patient.infectionStatus}" name="infectionStatus">
+
+                                        <div
+                                            th:if="${patient.infectionStatus == T(io.minicap.covid19trackingApp.appUsers.infectionStatus).contactTraced}">
+                                            <option value="asymptomatic">Asymptomatic</option>
+                                            <option value="symptomatic">Symptomatic</option>
+                                            <option value="critical">Symptomatic Critical</option>
+                                            <option value="contactTraced" selected="">Contact Traced</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.infectionStatus == T(io.minicap.covid19trackingApp.appUsers.infectionStatus).asymptomatic}">
+                                            <option value="asymptomatic" selected="">Asymptomatic</option>
+                                            <option value="symptomatic">Symptomatic</option>
+                                            <option value="critical">Symptomatic Critical</option>
+                                            <option value="contactTraced">Contact Traced</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.infectionStatus == T(io.minicap.covid19trackingApp.appUsers.infectionStatus).symptomatic}">
+                                            <option value="asymptomatic">Asymptomatic</option>
+                                            <option value="symptomatic" selected="">Symptomatic</option>
+                                            <option value="critical">Symptomatic Critical</option>
+                                            <option value="contactTraced">Contact Traced</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.infectionStatus == T(io.minicap.covid19trackingApp.appUsers.infectionStatus).critical}">
+                                            <option value="asymptomatic">Asymptomatic</option>
+                                            <option value="symptomatic">Symptomatic</option>
+                                            <option value="critical" selected="">Symptomatic Critical</option>
+                                            <option value="contactTraced">Contact Traced</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.infectionStatus == T(io.minicap.covid19trackingApp.appUsers.infectionStatus).none}">
+                                            <option value="asymptomatic">Asymptomatic</option>
+                                            <option value="symptomatic">Symptomatic</option>
+                                            <option value="critical">Symptomatic Critical</option>
+                                            <option value="contactTraced">Contact Traced</option>
+                                        </div>
+
+                                        <div th:if="${patient.infectionStatus == null}">
+                                            <option value="" selected="">Please Select</option>
+                                            <option value="asymptomatic">Asymptomatic</option>
+                                            <option value="symptomatic">Symptomatic</option>
+                                            <option value="critical">Symptomatic Critical</option>
+                                            <option value="contactTraced">Contact Traced</option>
+                                        </div>
+                                    </select>
+                                    <label for="recipient-name" class="col-form-label">Variant Type</label>
+                                    <select class="form-select" style="font-family:Roboto, sans-serif;"
+                                        th:value="${patient.varientType}" name="varientType">
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).alpha}">
+                                            <option value="alpha" selected="">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).beta}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta" selected="">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).gamma}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma" selected="">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).delta}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta" selected="">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).omicron}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron" selected="">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).other}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other" selected="">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).none}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+
+                                        <div
+                                            th:if="${patient.varientType == T(io.minicap.covid19trackingApp.appUsers.varientType).unknown}">
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown" selected="">Unknown</option>
+                                        </div>
+
+                                        <div th:if="${patient.varientType == null}">
+                                            <option value="" selected="">Variant</option>
+                                            <option value="alpha">Alpha</option>
+                                            <option value="beta">Beta</option>
+                                            <option value="gamma">Gamma</option>
+                                            <option value="delta">Delta</option>
+                                            <option value="omicron">Omicron</option>
+                                            <option value="other">Other</option>
+                                            <option value="unknown">Unknown</option>
+                                        </div>
+                                    </select>
+                                </div>
+
+                                <div th:if="${temperature}">
+                                    <label for="recipient-name" class="col-form-label">Temperature</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" min="32" max="40" name="temperature"
+                                            th:value="${recentReport.getTemperature}">
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type='hidden' value="0" id="flexCheckDefault" name="temperature">
+                                <div th:if="${weight}">
+                                    <label for="recipient-name" class="col-form-label">Weight</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" min="80" max="400" name="weight"
+                                            th:value="${recentReport.getWeight}">
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">lbs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type='hidden' value="0" id="flexCheckDefault" name="weight">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">List of Symptoms</label>
+                                <div>
+                                    <input type='hidden' value="" id="flexCheckDefault" name="fever">
+                                    <div class="form-check form-check-inline" th:if="${fever}">
+                                        <input class="form-check-input" type="checkbox" value="Fever"
+                                            id="flexCheckDefault" name="fever" th:checked="${hasFever}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Fever
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="sneezing">
+
+                                    <div class="form-check form-check-inline" th:if="${sneezing}">
+                                        <input class="form-check-input" type="checkbox" value="Sneezing"
+                                            id="flexCheckDefault" name="sneezing" th:checked="${hasSneezing}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Sneezing
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="fatigue">
+
+                                    <div class="form-check form-check-inline" th:if="${fatigue}">
+                                        <input class="form-check-input" type="checkbox" value="Fatigue"
+                                            id="flexCheckDefault" name="fatigue" th:checked="${hasFatigue}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Fatigue
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="cough">
+
+                                    <div class="form-check form-check-inline" th:if="${cough}">
+
+                                        <input class="form-check-input" type="checkbox" value="Cough"
+                                            id="flexCheckDefault" name="cough" th:checked="${hasCough}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Cough
+                                        </label><br>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="diarrhea">
+
+                                    <div class="form-check form-check-inline" th:if="${diarrhea}">
+
+                                        <input class="form-check-input" type="checkbox" value="Diarrhea"
+                                            id="flexCheckDefault" name="diarrhea" th:checked="${hasDiarrhea}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Diarrhea
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="headaches">
+
+                                    <div class="form-check form-check-inline" th:if="${headaches}">
+
+                                        <input class="form-check-input" type="checkbox" value="Headaches"
+                                            id="flexCheckDefault" name="headaches" th:checked="${hasHeadaches}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Headaches
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="runnyNose">
+
+                                    <div class="form-check form-check-inline" th:if="${runnyNose}">
+
+                                        <input class="form-check-input" type="checkbox" value="Runny Nose"
+                                            id="flexCheckDefault" name="runnyNose" th:checked="${hasRunnyNose}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Runny Nose
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="soreThroat">
+
+                                    <div class="form-check form-check-inline" th:if="${soreThroat}">
+
+                                        <input class="form-check-input" type="checkbox" value="Sore Throat"
+                                            id="flexCheckDefault" name="soreThroat" th:checked="${hasSoreThroat}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Sore Throat
+                                        </label><br>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="lossOfTaste">
+
+                                    <div class="form-check form-check-inline" th:if="${lossOfTaste}">
+
+                                        <input class="form-check-input" type="checkbox" value="Loss of Taste"
+                                            id="flexCheckDefault" name="lossOfTaste" th:checked="${hasLossOfTaste}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Loss of Taste
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="shortnessOfBreath">
+
+                                    <div class="form-check form-check-inline" th:if="${shortnessOfBreath}">
+                                        <input class="form-check-input" type="checkbox" value="Shortness of Breath"
+                                            id="flexCheckDefault" name="shortnessOfBreath"
+                                            th:checked="${hasShortnessOfBreath}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Shortness of Breath
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="lossOfSmell">
+
+                                    <div class="form-check form-check-inline" th:if="${lossOfSmell}">
+                                        <input class="form-check-input" type="checkbox" value="Loss of Smell"
+                                            id="flexCheckDefault" name="lossOfSmell" th:checked="${hasLossOfSmell}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Loss of Smell
+                                        </label>
+                                    </div>
+
+                                    <input type='hidden' value="" id="flexCheckDefault" name="chestPains">
+
+
+                                    <div class="form-check form-check-inline" th:if="${chestPains}">
+                                        <input class="form-check-input" type="checkbox" value="Chest Pains"
+                                            id="flexCheckDefault" name="chestPains" th:checked="${hasChestPains}">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Chest Pains
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Communication</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="isUrgent" value="false"
+                                        id="flexRadioDefault1" th:checked="${!recentReport.isUrgent}">
+                                    <label class="form-check-label" for="flexRadioDefault1" style="color:green">
+                                        Non-Urgent
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="isUrgent" id="flexRadioDefault2"
+                                        value="true" th:checked="${recentReport.isUrgent}">
+                                    <label class="form-check-label" for="flexRadioDefault2" style="color:red">
+                                        Urgent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="commentText">Additional Comments</label>
+                                <textarea class="form-control" id="commentText" rows="3" name="comments"
+                                    th:text="${recentReport.getComments}"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                                <td th:switch="${hasSubmittedReport}">
+                                    <input th:case="${true}" type="submit" class="btn btn-success" value="Update">
+                                    <input th:case="${false}" type="submit" class="btn btn-success" value="Submit">
+                                </td>
+                            </div>
+                            <p hidden><input name="patientPlatform" id="demo"></p>
+                        </form>
+                        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+                        <script>
+                            $('#isPositive').on('change', function () {
+                                $("#divid").css('display', (this.value == 'true') ? 'block' : 'none');
+                            });
+                        </script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Chat Modal -->
+        <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel"
+            aria-hidden="true">
+            <div style="
+            box-shadow: 1px 1px 30px 1px  rgb(0, 0, 0);
+            top: 10rem;
+            width: auto" class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="justify-content: center; background-color: #5726eb; color: white;">
+                        <h5 class="modal-title" id="chatModalLabel">Contact Doctor</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/patienthome/send-message}" method="post">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">To</label>
+                                <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 20px;"
+                                        th:text="${doctor}"></span></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Message</label>
+                                <textarea class="form-control" id="content" rows="5" name="content"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" style="background-color:#5726eb;">Send
+                                    Message</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="dashboardPatientAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="dashboardPatientAssets/js/chart.min.js"></script>
+    <script src="dashboardPatientAssets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="dashboardPatientAssets/js/theme.js"></script>
+    <script>
+        let platform = navigator.platform;
+        document.getElementById("demo").setAttribute('value', platform) = platform;
+    </script>
+    <script>
+        var today = new Date();
+        var currTime = today.getTime();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("date").setAttribute("min", today);
+        document.getElementById("time").setAttribute("min", currTime);
+        console.log(today)
+    </script>
+</body>
+
+</html>

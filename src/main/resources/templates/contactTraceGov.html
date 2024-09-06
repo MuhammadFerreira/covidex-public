@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="../../contactTraceAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../contactTraceAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../contactTraceAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../contactTraceAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../contactTraceAssets/css/Article-List.css">
+
+
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #cy {
+            width: 2000px;
+            height: 800px;
+
+        }
+    </style>
+
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(231,74,59);">
+            <div class="container-fluid d-flex flex-column p-0"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button" style="transform: scale(1.69);margin-top: 30px;color: rgb(249,250,251);transform-style: preserve-3d;"><i class="fas fa-bars"></i></button><a class="navbar-brand text-capitalize d-flex justify-content-center align-items-center sidebar-brand m-0" href="/" style="padding-top: 62px;">
+                    <div class="sidebar-brand-icon rotate-n-15"></div>
+                    <div class="sidebar-brand-text mx-3"><span style="font-family: Nunito, sans-serif;font-size: 49px;font-weight: bold;transform-style: preserve-3d;">CoviDex</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link active" href="/govhome" style="padding-top: 39px;"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/govhome/patients"><i class="fas fa-table"></i><span>Patients</span></a></li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand shadow mb-4 topbar static-top" style="height: 97px;background: var(--bs-red);">
+                    <div class="container-fluid">
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle link-light nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: var(--bs-body-bg);"><span style="font-size: 24px;padding-right: 11px;">[[${#request.userPrincipal.principal.fullName}]]</span><img class="border rounded-circle img-profile" src="../../dashboardAdminAssets/img/avatars/avatar1.jpeg" style="width: 60px;height: 60px;"></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        <div class="dropdown-divider"></div><form th:action="@{/logout}" method="post"><input class="dropdown-item" type="submit" value="&nbsp;Log Out" /></form>
+                                    </div> 
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container">
+                    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+                    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"
+                            style="font-family: Poppins, sans-serif;font-weight: bold;font-size: 35px;">COVID-19
+                            Transmission Graph</h3>
+                    </div>
+                    <div style="color: rgb(0,0,0);">
+                        <div class="card shadow border-start-primary py-2"
+                            style="width: auto;height: auto; margin-bottom: 100px;">
+                            <div class="form-group mb-3">
+                                <div id="formdiv-1">
+                                    <div class="row d-md-flex d-xxl-flex justify-content-md-center align-items-md-center justify-content-xxl-center align-items-xxl-center"
+                                        style="margin-right: 0px;margin-left: 0px;padding-top: 24px;width: auto;">
+                                        <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+
+                                            <script
+                                                src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.9.4/cytoscape.min.js"></script>
+                                            <script
+                                                src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                            <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+                                            <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+                                            <script src="../../contactTraceAssets/cytoscape-cose-bilkent.js"></script>
+
+                                            <div id="cy"></div>
+
+                                            <script th:inline="javascript">
+
+                                                /*<![CDATA[*/
+
+                                                var jsonFromController = /*[[${elements}]]*/ 'null';
+                                                var url = /*[[${url}]]*/ 'null';
+
+
+                                                /*]]>*/
+
+
+                                                var host = "http://" + window.location.hostname + ":" + window.location.port + url;
+
+                                                var jsonElements = JSON.parse(jsonFromController);
+
+                                                console.log(jsonElements);
+
+
+                                                $.getJSON("../../cyto.json", function (data) {
+
+                                                    let cy = cytoscape({
+
+                                                        container: document.getElementById('cy'),
+
+                                                        elements: jsonElements,
+
+                                                        layout: {
+                                                            name: 'cose'
+                                                        },
+
+                                                        style:
+                                                            [
+                                                                {
+                                                                    selector: 'node',
+                                                                    style:
+                                                                    {
+                                                                        'font-size': '5',
+                                                                        'color': 'white',
+                                                                        'text-outline-width': 2,
+                                                                        'text-outline-color': 'black',
+                                                                        'background-color': '#888',
+                                                                        'label': 'data(id)',
+                                                                        "background-image": "../../dashboardAdminAssets/img/avatars/avatars/Blue_Pokeball.png",
+                                                                        "background-fit": "cover cover",
+                                                                    }
+                                                                },
+                                                                {
+                                                                    selector: 'edge',
+                                                                    style: {
+                                                                        'width': 1,
+                                                                        'target-arrow-shape': 'triangle',
+                                                                        'curve-style': 'bezier'
+                                                                    }
+                                                                }
+                                                            ]
+                                                    });
+                                                    cy.cxtmenu({
+
+                                                        selector: 'node, edge',
+
+                                                        commands:
+
+                                                            [
+                                                                {
+                                                                    content: 'Flag/Unflag',
+                                                                    select: function (ele) {
+                                                                        console.log(host+"flag/"+ele.data().idNumber);
+                                                                        window.open(host+"flag/"+ele.data().idNumber, "_self");
+                                                                    }
+                                                                },
+                                                                {
+                                                                    content: 'About Patient',
+                                                                    select: function (ele) {
+                                                                        window.open(host+"patients/"+ele.data().idNumber);
+                                                                    }
+                                                                },
+                                                                {
+                                                                    content: 'View Graph',
+                                                                    select: function (ele) {
+                                                                        window.open(host + "contact-trace/" + ele.data().idNumber, "_self");
+                                                                    }
+                                                                }
+                                                            ],
+                                                            activeFillColor: 'rgb(255,0,0)'
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="row d-md-flex d-xxl-flex justify-content-md-center align-items-md-center justify-content-xxl-start align-items-xxl-center"
+                                        style="margin-right: 0px;margin-left: 0px;padding-top: 24px;width: auto;">
+                                        <div class="col flex-shrink-1"
+                                            style="font-family: Nunito, sans-serif;text-align: center;">
+                                            <p class="d-xl-flex justify-content-xl-center"
+                                                style="margin-left: 0%;font-family: Nunito, sans-serif;font-size: 39px;">
+                                                <strong>Legend</strong>
+                                            </p>
+                                            <div class="row d-xl-flex justify-content-xl-center align-items-xl-center">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;width: auto;"><img
+                                                                src="../../contactTraceAssets/img/avatars/Blue_Pokeball.jpeg"
+                                                                style="width: 42px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-table d-xl-flex flex-shrink-1 justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;width: auto;height: auto;">
+                                                                Contact-Traced</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                src="../../contactTraceAssets/img/avatars/Green_Pokeball.jpeg"
+                                                                style="width: 42px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-flex d-xl-flex align-items-center justify-content-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Recovered/Cleared</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                src="../../contactTraceAssets/img/avatars/Yelow_Pokeball.png"
+                                                                style="width: 42px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Asymptomatic</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                src="../../contactTraceAssets/img/avatars/Orange_Pokeball.jpeg"
+                                                                style="width: 42px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Symptomatic</h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                src="../../contactTraceAssets/img/avatars/Red_Pokeball.png"
+                                                                style="width: 44px;margin-left: 0px;margin-top: 4px;" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Critical</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                src="../../contactTraceAssets/img/avatars/Picture1.png"
+                                                                style="width: 68px;margin-left: 0px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Infected</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                src="../../contactTraceAssets/img/avatars/Red_circle.svg.webp"
+                                                                style="width: 42px;margin-left: -2px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Flagged</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                            style="padding-right: 0px;"><img
+                                                                src="../../contactTraceAssets/img/avatars/Pan_Blue_Circle.png"
+                                                                style="width: 39px;margin-left: 0px;" /></div>
+                                                        <div class="col">
+                                                            <h1 class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                                style="font-size: 22px;margin-left: 0;margin-top: 9px;">
+                                                                Selected Patient</h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © CoviDex 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="../../contactTraceAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../contactTraceAssets/js/theme.js"></script>
+    <script src="../../contactTraceAssets/js/cytoscape-ctxmenu.js"></script>
+    <script src="../../contactTraceAssets/js/cytoscape-euler.js"></script>
+</body>
+
+</html>

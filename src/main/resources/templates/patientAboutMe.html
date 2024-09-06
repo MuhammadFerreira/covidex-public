@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Covidex</title>
+    <link rel="icon" type="image/x-icon" href="../../assetsHome/img/covidex-logo.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../../cssHome/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../dashboardPatientAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/untitled.css">
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="justify-content-center d-flex">
+                <button class="btn btn-primary rounded-pill px-3 mb-2 " id="sidebarToggleTop" style="margin-right: 10px;">
+                    <span class="d-flex align-items-center">
+                        <span class="small">Toggle Menu</span>
+                    </span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger rounded-pill px-3 mb-2 " data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <span class="small">Log Out &nbsp;</span>
+                            <i class="bi bi-door-closed-fill"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: #5726eb;">
+            <div class="container-fluid d-flex flex-column p-0">
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-dark" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" style="padding-top: 39px;" href="/patienthome"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/patienthome/about-me"><i
+                                class="fas fa-user"></i><span>My Profile</span></a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link" href="/patienthome/reports"><i
+                                class="fas fa-solid fa-book-medical"></i><span>Review Reports</span></a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link" href="/patienthome/aboutdoctor"><i
+                                class="fas fa-solid fa-user-nurse"></i><span>About Doctor</span></a></li>
+
+                    <li th:if="${patient.isPositive == true}" class="nav-item"><a class="nav-link"
+                            href="/patienthome/contact-trace-report"><i class="fa fa-flag"></i><span>Contact Traced
+                                Individuals</span></a> </li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column rounded-left " style="z-index: 1000;">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4"
+                            style="margin-top: 30px;">
+                            <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">Personal Information</h1>
+                        </div>
+
+                        <span><a href="/patienthome/edit-profile"><input class="btn btn-primary" type="submit"
+                                    style="margin-top:20px;width: 180px;background: #5726eb;height: 67px;border-radius: 5.6px;font-weight: bold;font-size: 29px;border-width: 0px;padding-top: 0px;padding-bottom: 0px;"
+                                    value="Edit Profile"></a>
+                        </span>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Daily Status -->
+                        <div class="col-xl-4 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Full Name</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${#request.userPrincipal.principal.fullName}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Date Of Birth</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;" th:text="${patient.getDob}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Gender</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span class="text-capitalize" style="font-size: 35px;"
+                                                        th:text="${patient.getGender}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-xl-4  mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Address</span>
+                                                <div class="text-dark fw-bold h5 mb-0 text-center">
+                                                    <span style="font-size: 35px; text-align: center;"
+                                                        th:text="${patient.getAddress}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Daily Status -->
+                        <div class="col-xl-4  mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Phone Number</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${patient.getPhoneNumber}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4  mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Email</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${patient.getEmail()}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 30px;">
+                        <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">Health Status</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-xl-4  mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">COVID-19
+                                                    Status</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <th:block th:switch="${patient.isIsPositive}">
+                                                        <span th:case="${true}" style="font-size: 35px;">Positive</span>
+                                                        <span th:case="${false}"
+                                                            style="font-size: 35px;">Negative</span>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Daily Status -->
+                        <div class="col-xl-4  mb-4" th:if="${patient.isIsPositive}">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Symptom Type</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${patient.getInfectionStatus()}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4  mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Number of
+                                                    Doses</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${patient.getNumOfDoses}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Covidex 2022</span></div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+<body id="page-top">
+    <div id="wrapper">
+        <script th:inline="javascript">
+
+            /*<![CDATA[*/
+
+            var appointments = /*[[${appointments}]]*/ 'null';
+            var doctorAvailability = /*[[${doctorAvailability}]]*/ 'test';
+
+
+            /*]]>*/
+
+            var makeTimeIntervals = function (startTime, endTime, increment) {
+                startTime = startTime.toString().split(':');
+                endTime = endTime.toString().split(':');
+                increment = parseInt(increment, 10);
+
+                var pad = function (n) { return (n < 10) ? '0' + n.toString() : n; },
+                    startHr = parseInt(startTime[0], 10),
+                    startMin = parseInt(startTime[1], 10),
+                    endHr = parseInt(endTime[0], 10),
+                    endMin = parseInt(endTime[1], 10),
+                    currentHr = startHr,
+                    currentMin = startMin,
+                    previous = currentHr + ':' + pad(currentMin),
+                    current = '',
+                    r = [];
+
+                do {
+                    currentMin += increment;
+                    if ((currentMin % 60) === 0 || currentMin > 60) {
+                        currentMin = (currentMin === 60) ? 0 : currentMin - 60;
+                        currentHr += 1;
+                    }
+                    current = currentHr + ':' + pad(currentMin);
+                    r.push(previous + ' - ' + current);
+                    previous = current;
+                } while (currentHr !== endHr);
+
+                return r;
+            };
+
+            function populate(s1, s2) {
+                var s1 = document.getElementById(s1);
+                var s2 = document.getElementById(s2);
+
+                console.log(JSON.parse(doctorAvailability).fridayEnd)
+                console.log(new Date(s1.value).getDay())
+
+                if (new Date(s1.value).getDay() == 6) {
+                    doctorStartTime = JSON.parse(doctorAvailability).sundayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).sundayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 0) {
+                    doctorStartTime = JSON.parse(doctorAvailability).mondayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).mondayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 1) {
+                    doctorStartTime = JSON.parse(doctorAvailability).tuesdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).tuesdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 2) {
+                    doctorStartTime = JSON.parse(doctorAvailability).wednesdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).wednesdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 3) {
+                    doctorStartTime = JSON.parse(doctorAvailability).thursdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).thursdayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 4) {
+                    doctorStartTime = JSON.parse(doctorAvailability).fridayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).fridayEnd;
+                }
+
+                if (new Date(s1.value).getDay() == 5) {
+                    doctorStartTime = JSON.parse(doctorAvailability).saturdayStart;
+                    doctorEndTime = JSON.parse(doctorAvailability).saturdayEnd;
+                }
+
+                console.log(doctorEndTime)
+
+                var a = makeTimeIntervals(doctorStartTime, doctorEndTime, 30);
+
+                s2.innerHTML = "";
+
+                var JSONApp = JSON.parse(appointments);
+
+                console.log(JSONApp[0]);
+
+                for (var index in a) {
+
+                    var currentDateTime = new Date(s1.value);
+
+                    currentDateTime.setHours(a[index].split(" - ")[0].split(":")[0]);
+                    currentDateTime.setMinutes(a[index].split(" - ")[0].split(":")[1]);
+
+                    currentDateTime.setDate(currentDateTime.getDate() + 1);
+
+                    var booked = false;
+
+                    for (var check in JSONApp) {
+                        var pointerA = new Date(JSONApp[check].start.split(" ")[0].split("-")[0], JSONApp[check].start.split(" ")[0].split("-")[1] - 1, JSONApp[check].start.split(" ")[0].split("-")[2], JSONApp[check].start.split(" ")[1].split(":")[0], JSONApp[check].start.split(" ")[1].split(":")[1]);
+
+                        if (pointerA.getTime() === currentDateTime.getTime()) {
+                            console.log(pointerA + " VS " + currentDateTime);
+                            booked = true;
+                            break;
+                        }
+                    }
+
+                    if (booked) {
+                        console.log("IT WORKED!!!");
+                        continue;
+                    }
+
+                    var newOption = document.createElement("option");
+                    newOption.value = a[index];
+                    newOption.innerHTML = a[index];
+                    s2.options.add(newOption);
+                }
+            }
+        </script>
+    </div>
+    <script>
+        var today = new Date();
+        var currTime = today.getTime();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("date").setAttribute("min", today);
+        document.getElementById("time").setAttribute("min", currTime);
+        console.log(today)
+    </script>
+    <script src="../../doctorPatientStatusAssets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/chart.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/Simple-Slider.js"></script>
+    <script src="../../doctorPatientStatusAssets/js/theme.js"></script>
+</body>
+
+</html>

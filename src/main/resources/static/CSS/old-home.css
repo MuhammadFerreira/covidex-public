@@ -1,0 +1,11 @@
+/* body {
+    font-size: 40px;
+    font-smooth: never;
+    color: blue;
+    -webkit-font-smoothing: none;
+    font-family: "pokemon-font", monospace;
+  } */
+  h1 {
+    font-size: 40px;
+
+  }

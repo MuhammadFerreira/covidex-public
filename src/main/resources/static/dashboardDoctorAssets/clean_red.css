@@ -1,0 +1,55 @@
+/* 
+DayPilot Navigator Theme 
+https://themes.daypilot.org/navigator/theme/grr4os
+Theme Designer Version: 2020.06.01.40518
+*/
+.clean_red_main { border-left: 1px solid #c0c0c0;border-right: 1px solid #c0c0c0;border-bottom: 1px solid #c0c0c0; font-family: Tahoma, Arial, Helvetica, sans-serif; font-size: 12px; }
+.clean_red_main *, .clean_red_main *:before, .clean_red_main *:after { box-sizing: border-box; }
+.clean_red_line { border-bottom: 1px solid #c0c0c0; }
+/* month header */ 
+.clean_red_title, .clean_red_titleleft, .clean_red_titleright { 
+	border-top: 1px solid #c0c0c0;
+	color: #ffffff;
+	background: #ff0000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ff1a1a), to(#e60000));
+	background: -webkit-linear-gradient(top, #ff1a1a 0%, #e60000);
+	background: -moz-linear-gradient(top, #ff1a1a 0%, #e60000);
+	background: -ms-linear-gradient(top, #ff1a1a 0%, #e60000);
+	background: -o-linear-gradient(top, #ff1a1a 0%, #e60000);
+	background: linear-gradient(top, #ff1a1a 0%, #e60000);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#ff1a1a", endColorStr="#e60000");
+}
+.clean_red_title { text-align: center; }
+.clean_red_titleleft, .clean_red_titleright { text-align: center; }
+/* day headers */
+.clean_red_dayheader { 
+	color: #000000;
+	background: #ffffff;
+	padding: 0px;
+	text-align: center;
+}
+/* day cells */
+.clean_red_cell { 
+	color: #000000;
+	background: #ffffff;
+	text-align: center;
+}
+.clean_red_cell_text {
+	padding: 0px;
+}
+.clean_red_weeknumber { 
+	color: #000000;
+	background: #ffffff;
+	text-align: left;
+	padding: 3px;
+}
+.clean_red_weekend { 
+	color: #000000;
+	background: #f0f0f0;
+	text-align: center;
+	padding: 0px;
+}
+.clean_red_dayother { color: gray; }
+.clean_red_todaybox { border: 1px solid red; }
+.clean_red_busy { font-weight: bold; }
+.clean_red_select .clean_red_cell_box { background-color: #ff9696; opacity: 0.5; }

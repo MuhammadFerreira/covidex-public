@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap'); 
+
+
+
+body {
+    justify-content: center;
+    align-items: center;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
+.pageTitle {
+    margin:auto;
+    padding:2rem 2rem;
+    text-align: center;
+    color:white;
+}
+
+h1, img {
+    display: inline-block;
+    font-size: 7rem;
+}
+
+.logo {
+    width:9rem;
+    padding-bottom: 4.5rem;
+}
+
+.homeLink {
+    color: white;
+    margin-top: 1rem;
+	font-size: 1.5rem;
+}
+
+.formContainer {
+    margin:auto;
+    width: 30%;
+    max-height: 70rem;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 25px 30px;
+    border-radius: 5px;
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.formContainer .title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+form {
+    align-items: center;
+}
+
+@media (max-width: 40rem) {
+
+    .pageTitle {
+        text-align: center;
+        color:white;
+    }
+    
+    h1, img {
+        display: inline-block;
+        font-size: 3rem;
+    }
+    
+    .logo {
+        width:4rem;
+        padding-bottom: 2rem;
+    }
+
+    .formContainer {
+        width: 100%;
+    }
+    form .user-details .input-box {
+        width: 100%;
+    }
+
+    body {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+.registerBtn {
+    height: 100%;
+    width: 100%;
+}

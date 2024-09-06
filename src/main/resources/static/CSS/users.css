@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap'); 
+
+body{
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.navbar {
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.logo{
+	cursor: pointer;
+	margin-right:auto;
+	width: 45px;
+    height: auto;
+	align-items: center; 
+	padding-right: 0.5rem;
+}
+
+
+
+.main-div {
+    background: lightgray;
+    width: 80% auto;
+}
+
+li, a, button{
+	font-family: "Mochiy Pop P One", sans-serif; 
+	font-weight:500;
+	font-size:20px; 
+	color: black;
+	text-decoration: none; 
+}
+
+/* header{
+	display: flex; 
+	justify-content:space-between; 
+	align-items: center; 
+	padding: 15px 5%; 
+	background: white; 
+    color: black;
+}
+
+.logo{
+	cursor: pointer;
+	margin-right:auto;
+	width: 90px;
+    height: auto;
+	align-items: center; 
+} */
+
+
+
+/* h1{
+	font-size:70px; 
+	color: white;
+	text-align: center;
+	position: fixed;
+	right:10%;
+    top:35%;	
+}
+
+h2{
+	position: fixed;
+	right:81%;
+	font-size:35px;
+
+}
+p{
+	font-size:30px; 
+	color: white;
+	text-align: center;
+	position: fixed;
+	right:15%;
+    top:48%;	
+	
+}
+
+.join{
+	color:blue;
+	
+}
+
+.pikachu{
+    transform: rotateY(180deg);
+	margin-right:auto;
+	width: 80%;
+    height: auto;
+    position: fixed;
+	right:40%;
+    top:5%;	
+}
+
+.nav_links{
+	list-style: none;  
+} 
+.nav_links li{
+	display: inline-block;
+	padding: 0px 20px; 
+} 
+.nav_links li a {
+	transition: all 0.3s ease 0s; 
+} 
+.nav_links li a:hover {
+	color: red; 
+} 
+.button1{
+	margin-left:20px; 
+	padding: 9px 25px;
+	background-color: #1762A7;
+	border: none;
+	border-radius: 50px;
+	cursor: pointer; 
+    transition: all 0.3s ease 0s; 	
+} 
+
+.button2{
+	margin-left:20px; 
+	padding: 25px 35px;
+	font-size:35px;
+	background-color: #1762A7;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer; 
+	text-align:center;
+    transition: all 0.3s ease 0s;
+	position: fixed;
+	right:40%;
+    top:60%;	
+	color:white;
+}
+
+button:hover{
+	background-color: #FF4500;
+} */

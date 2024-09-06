@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Covidex</title>
+    <link rel="icon" type="image/x-icon" href="assetsHome\img\covidex-logo.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="cssHome\styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../dashboardPatientAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../dashboardPatientAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/untitled.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="../../doctorPatientStatusAssets/css/untitled.css">
+</head>
+<!-- Modal -->
+<form th:action="@{/doctorhome/book-appointment}" method="post">
+    <input type="hidden" id="patient" name="patient" th:value="${patient.email}">
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">Schedule Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="row" style="padding: 10px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Appointment Date</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='date' id="date" name="date" class="form-control"
+                                    onchange="populate(this.id,'time')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <label class="control-label">Appointment Time</label>
+                            <select class="form-select" name="time" id="time">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Reason</label>
+                            <textarea name="reason" style="height:100px; width:200px;" class="form-control"
+                                reason="reason" id="reason"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var appointments = /*[[${appointments}]]*/ 'null';
+    var doctorAvailability = /*[[${doctorAvailability}]]*/ 'test';
+
+
+    /*]]>*/
+
+    var makeTimeIntervals = function (startTime, endTime, increment) {
+        startTime = startTime.toString().split(':');
+        endTime = endTime.toString().split(':');
+        increment = parseInt(increment, 10);
+
+        var pad = function (n) { return (n < 10) ? '0' + n.toString() : n; },
+            startHr = parseInt(startTime[0], 10),
+            startMin = parseInt(startTime[1], 10),
+            endHr = parseInt(endTime[0], 10),
+            endMin = parseInt(endTime[1], 10),
+            currentHr = startHr,
+            currentMin = startMin,
+            previous = currentHr + ':' + pad(currentMin),
+            current = '',
+            r = [];
+
+        do {
+            currentMin += increment;
+            if ((currentMin % 60) === 0 || currentMin > 60) {
+                currentMin = (currentMin === 60) ? 0 : currentMin - 60;
+                currentHr += 1;
+            }
+            current = currentHr + ':' + pad(currentMin);
+            r.push(previous + ' - ' + current);
+            previous = current;
+        } while (currentHr !== endHr);
+
+        return r;
+    };
+
+    function populate(s1, s2) {
+        var s1 = document.getElementById(s1);
+        var s2 = document.getElementById(s2);
+
+        console.log(JSON.parse(doctorAvailability).fridayEnd)
+        console.log(new Date(s1.value).getDay())
+
+        if (new Date(s1.value).getDay() == 6) {
+            doctorStartTime = JSON.parse(doctorAvailability).sundayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).sundayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 0) {
+            doctorStartTime = JSON.parse(doctorAvailability).mondayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).mondayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 1) {
+            doctorStartTime = JSON.parse(doctorAvailability).tuesdayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).tuesdayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 2) {
+            doctorStartTime = JSON.parse(doctorAvailability).wednesdayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).wednesdayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 3) {
+            doctorStartTime = JSON.parse(doctorAvailability).thursdayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).thursdayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 4) {
+            doctorStartTime = JSON.parse(doctorAvailability).fridayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).fridayEnd;
+        }
+
+        if (new Date(s1.value).getDay() == 5) {
+            doctorStartTime = JSON.parse(doctorAvailability).saturdayStart;
+            doctorEndTime = JSON.parse(doctorAvailability).saturdayEnd;
+        }
+
+        console.log(doctorEndTime)
+
+        var a = makeTimeIntervals(doctorStartTime, doctorEndTime, 30);
+
+        s2.innerHTML = "";
+
+        var JSONApp = JSON.parse(appointments);
+
+        console.log(JSONApp[0]);
+
+        for (var index in a) {
+
+            var currentDateTime = new Date(s1.value);
+
+            currentDateTime.setHours(a[index].split(" - ")[0].split(":")[0]);
+            currentDateTime.setMinutes(a[index].split(" - ")[0].split(":")[1]);
+
+            currentDateTime.setDate(currentDateTime.getDate() + 1);
+
+            var booked = false;
+
+            for (var check in JSONApp) {
+                var pointerA = new Date(JSONApp[check].start.split(" ")[0].split("-")[0], JSONApp[check].start.split(" ")[0].split("-")[1] - 1, JSONApp[check].start.split(" ")[0].split("-")[2], JSONApp[check].start.split(" ")[1].split(":")[0], JSONApp[check].start.split(" ")[1].split(":")[1]);
+
+                if (pointerA.getTime() === currentDateTime.getTime()) {
+                    console.log(pointerA + " VS " + currentDateTime);
+                    booked = true;
+                    break;
+                }
+            }
+
+            if (booked) {
+                console.log("IT WORKED!!!");
+                continue;
+            }
+
+            var newOption = document.createElement("option");
+            newOption.value = a[index];
+            newOption.innerHTML = a[index];
+            s2.options.add(newOption);
+        }
+    }
+</script>
+<div class="modal fade" id="statusModal" style="margin-top: 10vh;" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statusModalLabel">Edit Patient Daily Status Report Contents</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/doctorhome/patients/details}" method="post">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Temperature</label>
+                        <div class="input-group mb-3">
+
+                            <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                name="temperature" th:checked="${temperature}">
+                            <input type='hidden' value="false" id="flexCheckDefault" name="temperature">
+                        </div>
+                        <label for="recipient-name" class="col-form-label">Weight</label>
+                        <div class="input-group mb-3">
+
+                            <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                name="weight" th:checked="${weight}">
+                            <input type='hidden' value="false" id="flexCheckDefault" name="weight">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">List of Symptoms</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="fever" th:checked="${fever}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="fever">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Fever
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="sneezing" th:checked="${sneezing}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="sneezing">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Sneezing
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="fatigue" th:checked="${fatigue}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="fatigue">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Fatigue
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="cough" th:checked="${cough}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="cough">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Cough
+                                </label>
+                            </div><br>
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="diarrhea" th:checked="${diarrhea}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="diarrhea">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Diarrhea
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="headaches" th:checked="${headaches}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="headaches">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Headaches
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="runnyNose" th:checked="${runnyNose}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="runnyNose">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Runny Nose
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="soreThroat" th:checked="${soreThroat}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="soreThroat">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Sore Throat
+                                </label>
+                            </div> <br>
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="lossOfTaste" th:checked="${lossOfTaste}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="lossOfTaste">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Loss of Taste
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="shortnessOfBreath" th:checked="${shortnessOfBreath}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="shortnessOfBreath">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Shortness of Breath
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="lossOfSmell" th:checked="${lossOfSmell}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="lossOfSmell">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Loss of Smell
+                                </label>
+                            </div><br />
+                            <div class="form-check form-check-inline">
+
+                                <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault"
+                                    name="chestPains" th:checked="${chestPains}">
+                                <input type='hidden' value="false" id="flexCheckDefault" name="chestPains">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Chest Pains
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                        <td>
+                            <input type="submit" class="btn btn-success" value="Update">
+                        </td>
+                    </div>
+                    <p hidden><input name="patientID" id="patientID" th:value="${patient.getId}"></p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3" id="mainNav" style="z-index: 10000;">
+    <div class="container px-5" style="max-width: 100%;">
+        <img src="../assetsHome/img/covidex-logo.ico" alt="logo" class=""
+            style="width: 50px; height: 50px; margin-right: 10px; margin-bottom: 10px; margin-top: 10px; margin-left: 10px;" />
+        <a class="navbar-brand fw-bold" href="/" style="font-size: 30px;">Covidex</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="justify-content-center d-flex">
+                <button class="btn btn-primary rounded-pill px-3 mb-2 " id="sidebarToggleTop" style="margin-right: 10px;">
+                    <span class="d-flex align-items-center">
+                        <span class="small">Toggle Menu</span>
+                    </span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger rounded-pill px-3 mb-2 " data-bs-toggle="modal">
+                        <span class="d-flex align-items-center">
+                            <span class="small">Log Out &nbsp;</span>
+                            <i class="bi bi-door-closed-fill"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: #5726eb;">
+            <div class="container-fluid d-flex flex-column p-0 navbar-brand">
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-dark" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="/doctorhome" style="padding-top: 39px;"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctorhome/about-me"><i
+                                class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctorhome/patients"><i
+                                class="fas fa-table"></i><span>Patients</span></a></li>
+
+
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button" style="transform-style: preserve-3d;"></button></div>
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column rounded-left " style="z-index: 1000;">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 30px;">
+                        <h1 style="font-weight: bold;font-size: 41px;" class="text-dark">Patient Details</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Daily Status -->
+                        <div class="col-xl-6">
+                            <form th:action="@{/doctorhome/patients/flag}" method="post">
+                                <td th:switch="${patient.isFlagged}">
+                                    <p hidden><input name="patientEmail" th:value="${patient.email}"></p>
+                                    <input th:case="${true}" class="btn btn-danger" type="submit"
+                                        style="width: 100%;height: 80%;border-radius: 5.6px;font-weight: bold;font-size: 29px;border-width: 0px; margin-bottom:1rem;"
+                                        value="Unflag"><input th:case="${false}" class="btn" type="submit"
+                                        style="width: 100%;height: 80%;border-radius: 5.6px;font-weight: bold;font-size: 29px;border-width: 0px; margin-bottom:1rem; background-color: #5726eb; color: white;"
+                                        value="Flag">
+                                </td>
+                            </form>
+                        </div>
+                        <!-- Daily Status -->
+                        <div class="col-xl-6">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal"
+                                style="width: 100%;height: 80%;border-radius: 5.6px; font-weight: bold;font-size: 29px; background-color: #5726eb; border-style:none; margin-bottom:1rem;">Schedule
+                                Appointment</button>
+                        </div>
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Daily Status -->
+                        <div class="col-xl-6">
+                            <a class="btn btn-primary" th:href="@{/doctorhome/contact-trace/{id}(id=${patient.getId})}"
+                                style="width: 100%;height: 80%;border-radius: 5.6px;font-weight: bold;font-size: 29px;  background-color: #5726eb; border-style:none;margin-bottom:1rem;">Contact
+                                Tracing</a>
+                        </div>
+                        <!-- Daily Status -->
+                        <div class="col-xl-6">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statusModal"
+                                style="width: 100%;height: 80%;border-radius: 5.6px; font-weight: bold;font-size: 29px; background-color: #5726eb; border-style:none; margin-bottom:1rem;">Edit
+                                Daily Report</button>
+                        </div>
+                    </div>
+
+
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Daily Status -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Full Name</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span
+                                                        style="font-size: 35px;">[[${#request.userPrincipal.principal.fullName}]]</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <img class="rounded-circle img-profile" th:if="${patient.isFlagged}"
+                                                    src="../../doctorPatientStatusAssets/img/avatars/395841.png"
+                                                    style="width: 60px;height: 60px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Age -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Age</span>
+                                            <div class="text-dark fw-bold h5 mb-0"><span style="font-size: 35px;"
+                                                    th:text="${patientAge}"></span></div>
+                                        </div>
+                                        <div class="col-auto"><i
+                                                class="fas fa-birthday-cake text-primary fa-2x text-gray-300"
+                                                style="font-size: 38px;"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Gender</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span class="text-capitalize"
+                                                        style="font-size: 35px;" th:text="${patient.getGender}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row d-flex justify-content-center">
+
+                        <!-- Number of Doses -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <a href="https://www.google.com/" style="color: rgba(78,115,223,0);" data-bs-toggle="modal"
+                                data-bs-target="#statusModal">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Number of
+                                                    Doses</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${patient.getNumOfDoses}"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icon-tabler-virus-search fa-2x text-gray-300"
+                                                    style="color: rgb(235,56,56);font-size: 47px;">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M17 12a5 5 0 1 0 -5 5"></path>
+                                                    <path d="M12 7v-4m-1 0h2"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(45 12 12)"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(90 12 12)"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(180 12 12)"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(225 12 12)"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(270 12 12)"></path>
+                                                    <path d="M12 7v-4m-1 0h2" transform="rotate(315 12 12)"></path>
+                                                    <circle cx="17.5" cy="17.5" r="2.5">
+                                                    </circle>
+                                                    <line x1="19.5" y1="19.5" x2="22" y2="22">
+                                                    </line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Age -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">COVID-19
+                                                Status</span>
+                                            <div class="text-dark fw-bold h5 mb-0">
+                                                <th:block th:switch="${patient.isIsPositive}">
+                                                    <span th:case="${true}" style="font-size: 30px;">Positive</span>
+                                                    <span th:case="${false}" style="font-size: 30px;">Negative</span>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icon-tabler-virus fa-2x text-gray-300"
+                                                style="color: rgb(235,56,56);font-size: 47px;">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <circle cx="12" cy="12" r="5"></circle>
+                                                <path d="M12 7v-4m-1 0h2"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(45 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(90 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(135 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(180 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(225 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(270 12 12)"></path>
+                                                <path d="M12 7v-4m-1 0h2" transform="rotate(315 12 12)"></path>
+                                            </svg></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-xl-4 col-md-8 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <span style="font-size: 23.2px;color: rgb(0,0,0);">Symptom
+                                                Type</span>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="text-dark fw-bold h5 mb-0"><span class="text-capitalize"
+                                                        style="font-size: 35px;"
+                                                        th:text="${patient.getInfectionStatus()}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icon-tabler-user-exclamation fa-2x text-gray-300"
+                                                style="color: rgb(235,56,56);font-size: 47px;">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+                                                </path>
+                                                <line x1="19" y1="7" x2="19" y2="10"></line>
+                                                <line x1="19" y1="14" x2="19" y2="14.01">
+                                                </line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row d-flex justify-content-center" style="height: 100%">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header d-flex justify-content-between align-items-center"><span
+                                        class="text-dark fw-bold h5 mb-0"
+                                        style="font-size: 35px;font-weight: bold;text-align: center;">10-Day
+                                        Recap of Status Rating</span></div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas
+                                            th:data-bss-chart="|{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[${lastTenReportDates}],&quot;datasets&quot;:[{&quot;label&quot;:&quot;My Health Status&quot;,&quot;backgroundColor&quot;:&quot;rgb(231,74,59)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;,&quot;data&quot;:[${lastTenReportRatings}]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#212529&quot;,&quot;fontSize&quot;:36}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ea1111&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontSize&quot;:&quot;19&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontSize&quot;:&quot;19&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}|"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${noReports}">
+                        <div
+                            class="d-sm-flex justify-content-between align-items-center justify-content-xxl-center mb-4">
+                            <h3 class="text-dark d-xxl-flex align-items-xxl-start mb-0"
+                                style="font-weight: bold;font-size: 41px; margin-top: 20vw;">No Reports!</h3>
+                        </div>
+                    </div>
+                    <div th:if="${!noReports}">
+                        <div class="d-sm-flex justify-content-between mb-4">
+                            <h3 class="text-dark d-xxl-flex align-items-xxl-start mb-0"
+                                style="font-weight: bold;font-size: 41px;">Reports</h3>
+                        </div>
+                        <div class="d-sm-flex mb-4">
+                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false"
+                                    data-bs-toggle="dropdown" type="button"
+                                    style="height: auto;width: auto; background: #5726eb;font-weight: bold;text-align: center;font-size: 27px;padding-top: 9px;padding-right: 15px;border-color: rgba(255,255,255,0);"
+                                    th:text="${report.getDate}">&nbsp;</button>
+                                <div class="dropdown-menu"
+                                    style="font-size: 21.6px;text-align: center;padding-bottom: 0px;max-height: 240px;overflow: auto;transform-style: preserve-3d;border-radius: 10px;">
+                                    <div th:each="report: ${reports}">
+                                        <form th:action="@{/doctorhome/patients/{id}(id=${patient.getId})}" method="post">
+                                            <div class="dropdown-item">
+                                                <input name="date" type="submit" th:value="' '+ ${report.getDate} + ' '"
+                                                    style="background: none; color: inherit; border: none; padding: 0;font: inherit; cursor: pointer; outline: inherit;">
+                                                <div th:if="${!report.isReviewed}" class="fas fa-exclamation fa-2x"
+                                                    style="color: rgb(206, 43, 62); font-size: 20px;">
+                                                </div>
+                                                <div th:if="${report.isReviewed}"
+                                                    style="color: rgb(17, 231, 28); font-size: 20px;"
+                                                    class="far fa-check-circle fa-2x"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Doctor Comment -->
+                        <div class="row d-flex justify-content-center">
+
+                            <!-- Review Status -->
+                            <div th:if="${!report.isReviewed}" class="col-xl-4 col-md-8 mb-4">
+                                <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                    data-bs-toggle="modal" data-bs-target="#statusModal">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <span style="font-size: 23.2px;color: rgb(0,0,0);">Review
+                                                        Status</span>
+                                                    <div class="text-dark fw-bold h5 mb-0">
+                                                        <span style="font-size: 35px;">Pending</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-exclamation fa-2x"
+                                                        style="color: rgb(206, 43, 62);"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div th:if="${report.isReviewed}" class="col-xl-4 col-md-8 mb-4">
+                                <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                    data-bs-toggle="modal" data-bs-target="#statusModal">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <span style="font-size: 23.2px;color: rgb(0,0,0);">Review
+                                                        Status</span>
+                                                    <div class="text-dark fw-bold h5 mb-0">
+                                                        <span style="font-size: 35px;">Reviewed</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i style="color: rgb(17, 231, 28);"
+                                                        class="far fa-check-circle fa-2x"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Type -->
+                            <div class="col-xl-4 col-md-8 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Report Type</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <th:block th:switch="${report.isIsUrgent}">
+                                                        <span th:case="${true}" style="font-size: 30px;">Urgent</span>
+                                                        <span th:case="${false}"
+                                                            style="font-size: 30px;">Non-Urgent</span>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icon-tabler-urgent fa-2x text-gray-300">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M8 16v-4a4 4 0 0 1 8 0v4"></path>
+                                                    <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7">
+                                                    </path>
+                                                    <rect x="6" y="16" width="12" height="4" rx="1"></rect>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Device -->
+                            <div class="col-xl-4 col-md-8 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Device</span>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="text-dark fw-bold h5 mb-0"><span class="text-capitalize"
+                                                            style="font-size: 35px;"
+                                                            th:text="${report.getDevice}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="material-icons fa-2x text-gray-300"
+                                                    style="/*color: rgb(213,37,58);*/width: 35px;font-size: 35px;">devices</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${report.isReviewed}" class="row d-flex justify-content-center"
+                            style="height: 100%">
+
+                            <!-- Doctor Comment -->
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header d-flex justify-content-between align-items-center"><span
+                                            class="text-dark fw-bold h5 mb-0"
+                                            style="font-size: 35px;font-weight: bold;text-align: center;"
+                                            th:text="'Reviewed By '+ ${report.getDoctorThatReviewed()}"></span></div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                                            <span style="font-size: 25px;">Comments:</span>
+                                        </div>
+                                        <div class="text-dark fw-bold h5 mb-0" style="font-size: 3px;"><span
+                                                style="font-size: 25px;" th:text="${report.getDoctorComments()}"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${!report.isReviewed}" class="row d-flex justify-content-center"
+                            style="height: 100%">
+
+                            <!-- Doctor Comment -->
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header d-flex justify-content-between align-items-center"><span
+                                            class="text-dark fw-bold h5 mb-0"
+                                            style="font-size: 35px;font-weight: bold;text-align: center;">Add a
+                                            Review!</span></div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <form th:action="@{/doctorhome/patients/post}" method="post">
+                                            <input hidden name="reportId" th:value="${report.getId}">
+                                            <textarea class="d-md-flex justify-content-md-center align-items-md-center"
+                                                id="from-comments-1" name="response" placeholder="Enter Comments"
+                                                rows="5"
+                                                style="width: 2000px;font-size: 21px;max-width: 100%;height: 116.5px;"></textarea>
+                                            <input
+                                                class="btn btn-primary d-xxl-flex justify-content-xxl-center align-items-xxl-center"
+                                                type="submit"
+                                                style="width: auto;background: var(--bs-blue);height: 29px;border-radius: 5.6px;font-weight: bold;font-size: 16px;border-width: 0px;padding-top: 0px;padding-bottom: 0px; margin-top: 20px;">
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Content Row -->
+                        <div class="row d-flex justify-content-center">
+
+                            <!-- Review Status -->
+                            <div class="col-xl-4 col-md-8 mb-4">
+                                <a href="https://www.google.com/" style="color: rgba(78,115,223,0);"
+                                    data-bs-toggle="modal" data-bs-target="#statusModal">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <span style="font-size: 23.2px;color: rgb(0,0,0);">Status
+                                                        Rating</span>
+                                                    <div class="text-dark fw-bold h5 mb-0">
+                                                        <span style="font-size: 35px;"
+                                                            th:text="${report.getStatusRating} + '/10'"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-balance-scale fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Temp -->
+                            <div class="col-xl-4 col-md-8 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Temperature</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 35px;"
+                                                        th:text="${report.getTemperature}+'°C'"><br><br></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i
+                                                    class="fas fa-thermometer-empty d-xxl-flex justify-content-xxl-center align-items-xxl-center fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Weight -->
+                            <div class="col-xl-4 col-md-8 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Weight</span>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="text-dark fw-bold h5 mb-0"><span
+                                                            style="font-size: 30px;"
+                                                            th:text="${report.getWeight}+' lbs'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-weight fa-2x text-gray-300"
+                                                    style="/*color: rgb(213,37,58);*/"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Content Row -->
+                        <div class="row d-flex justify-content-center">
+
+                            <!-- Symptoms -->
+                            <div class="col-xl-6 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Symptoms</span>
+                                                <div class="text-dark fw-bold h5 mb-0">
+                                                    <span style="font-size: 31px;text-align: center;"
+                                                        th:text="${symptoms}"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-notes-medical fa-2x text-gray-300"
+                                                    style="color: rgb(213,37,58);"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comments -->
+                            <div class="col-xl-6 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <span style="font-size: 23.2px;color: rgb(0,0,0);">Comments</span>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="text-dark fw-bold h5 mb-0"><span
+                                                            style="font-size: 31px;"
+                                                            th:text="${report.getComments}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icon-tabler-notes fa-2x text-gray-300"
+                                                    style="/*color: rgb(213,37,58);*/">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+                                                    <line x1="9" y1="7" x2="15" y2="7"></line>
+                                                    <line x1="9" y1="11" x2="15" y2="11"></line>
+                                                    <line x1="9" y1="15" x2="13" y2="15"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Covidex 2022</span></div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+<script src="../../doctorPatientStatusAssets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../doctorPatientStatusAssets/js/chart.min.js"></script>
+<script src="../../doctorPatientStatusAssets/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+<script src="../../doctorPatientStatusAssets/js/Simple-Slider.js"></script>
+<script src="../../doctorPatientStatusAssets/js/theme.js"></script>
+
+</html>
